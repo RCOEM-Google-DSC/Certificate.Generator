@@ -3,8 +3,19 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "@pdf-lib/fontkit": "^1.1.1"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "prettier": "^3.0.0"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
   },
   "peerDependencies": {
     "typescript": "^5"
