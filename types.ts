@@ -30,12 +30,12 @@ export interface GeneratorOptions {
   defaultFontSize: number;
   defaultFontColor: RGB;
   concurrency: number;
-  mode: "test" | "production";
+  mode: 'test' | 'production';
   testName?: string;
 }
 
 export interface AppConfig {
-  mode: "test" | "production";
+  mode: 'test' | 'production';
   fontSize: number;
   fontColor: RGB;
   concurrency: number;

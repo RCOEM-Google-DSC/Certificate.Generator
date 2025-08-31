@@ -1,7 +1,7 @@
-import { existsSync, mkdirSync, readFileSync } from "fs";
-import { dirname } from "path";
-import type { PersonData } from "./types";
-import { FileNotFoundError, DataValidationError } from "./errors";
+import { existsSync, mkdirSync, readFileSync } from 'fs';
+import { dirname } from 'path';
+import type { PersonData } from './types';
+import { FileNotFoundError, DataValidationError } from './errors';
 
 export class FileUtil {
   /**
@@ -28,7 +28,7 @@ export class FileUtil {
     const missingFiles = filePaths.filter((path) => !existsSync(path));
     if (missingFiles.length > 0) {
       throw new FileNotFoundError(
-        `Missing required files: ${missingFiles.join(", ")}`
+        `Missing required files: ${missingFiles.join(', ')}`
       );
     }
   }
@@ -38,10 +38,10 @@ export class FileUtil {
    */
   public static sanitizeFilename(filename: string): string {
     return filename
-      .replace(/[^a-z0-9]/gi, "_")
+      .replace(/[^a-z0-9]/gi, '_')
       .toLowerCase()
-      .replace(/_+/g, "_")
-      .replace(/^_|_$/g, "");
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '');
   }
 
   /**
@@ -53,17 +53,17 @@ export class FileUtil {
         throw new FileNotFoundError(filePath);
       }
 
-      const fileContent = readFileSync(filePath, "utf8");
+      const fileContent = readFileSync(filePath, 'utf8');
       const data = JSON.parse(fileContent);
 
       if (!Array.isArray(data)) {
-        throw new DataValidationError("JSON file must contain an array");
+        throw new DataValidationError('JSON file must contain an array');
       }
 
       const validatedData: PersonData[] = [];
 
       data.forEach((item, index) => {
-        if (!item || typeof item !== "object") {
+        if (!item || typeof item !== 'object') {
           throw new DataValidationError(
             `Item at index ${index} is not a valid object`
           );
@@ -71,7 +71,7 @@ export class FileUtil {
 
         if (
           !item.name ||
-          typeof item.name !== "string" ||
+          typeof item.name !== 'string' ||
           item.name.trim().length === 0
         ) {
           throw new DataValidationError(
@@ -81,7 +81,7 @@ export class FileUtil {
 
         if (
           !item.email ||
-          typeof item.email !== "string" ||
+          typeof item.email !== 'string' ||
           !this.isValidEmail(item.email)
         ) {
           throw new DataValidationError(
@@ -109,13 +109,13 @@ export class FileUtil {
 
       if (duplicates.length > 0) {
         throw new DataValidationError(
-          `Duplicate emails found: ${duplicates.join(", ")}`
+          `Duplicate emails found: ${duplicates.join(', ')}`
         );
       }
 
       return validatedData;
     } catch (error) {
-      if (error instanceof Error && error.name.includes("JSON")) {
+      if (error instanceof Error && error.name.includes('JSON')) {
         throw new DataValidationError(`Invalid JSON format: ${error.message}`);
       }
       throw error;

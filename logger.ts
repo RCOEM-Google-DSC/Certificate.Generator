@@ -14,12 +14,12 @@ export class Logger {
       const levelName = LogLevel[level];
       const prefix =
         level === LogLevel.ERROR
-          ? "❌"
+          ? '❌'
           : level === LogLevel.WARN
-            ? "⚠️"
+            ? '⚠️'
             : level === LogLevel.INFO
-              ? "ℹ️"
-              : "🔍";
+              ? 'ℹ️'
+              : '🔍';
 
       console.log(`${prefix} - ${levelName}: ${message}`, ...args);
     }

@@ -1,7 +1,7 @@
-import { ConfigManager } from "./config";
-import { CertificateGenerator } from "./certificate-generator";
-import { DataLoader } from "./data-loader";
-import { Logger, LogLevel } from "./logger";
+import { ConfigManager } from './config';
+import { CertificateGenerator } from './certificate-generator';
+import { DataLoader } from './data-loader';
+import { Logger, LogLevel } from './logger';
 
 async function main() {
   const logger = new Logger(LogLevel.INFO);
@@ -19,7 +19,7 @@ async function main() {
     logger.info(`   Concurrency: ${config.concurrency}`);
     logger.info(`   Output Directory: ${config.outputDir}`);
 
-    if (config.mode === "test" && config.testName) {
+    if (config.mode === 'test' && config.testName) {
       logger.info(`   Test Name: ${config.testName}`);
     }
 
@@ -54,10 +54,10 @@ async function main() {
     logger.info(`❌ Failed: ${results.failed.length}`);
 
     if (results.failed.length > 0) {
-      logger.error("\n❌ Failed certificates:");
+      logger.error('\n❌ Failed certificates:');
       results.failed.forEach(({ config, error }) => {
         logger.error(
-          `   - ${config.name}${config.email ? ` (${config.email})` : ""}: ${
+          `   - ${config.name}${config.email ? ` (${config.email})` : ''}: ${
             error.message
           }`
         );
@@ -68,7 +68,7 @@ async function main() {
       logger.success(
         `\n📁 Generated certificates saved in: ${config.outputDir}`
       );
-      logger.info("📋 Generated files:");
+      logger.info('📋 Generated files:');
       results.successful.forEach((path) => {
         logger.info(`   - ${path}`);
       });
@@ -77,7 +77,7 @@ async function main() {
     // Exit with appropriate code
     process.exit(results.failed.length > 0 ? 1 : 0);
   } catch (error) {
-    logger.error("💥 Application failed to start:", error);
+    logger.error('💥 Application failed to start:', error);
     process.exit(1);
   }
 }
@@ -85,7 +85,7 @@ async function main() {
 // Run the application
 if (import.meta.main) {
   main().catch((error) => {
-    console.error("🔥 Unhandled error:", error);
+    console.error('🔥 Unhandled error:', error);
     process.exit(1);
   });
 }

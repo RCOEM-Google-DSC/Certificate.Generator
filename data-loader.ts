@@ -1,6 +1,6 @@
-import type { CertificateConfig, PersonData, AppConfig } from "./types";
-import { FileUtil } from "./utils";
-import { Logger } from "./logger";
+import type { CertificateConfig, PersonData, AppConfig } from './types';
+import { FileUtil } from './utils';
+import { Logger } from './logger';
 
 export class DataLoader {
   private logger: Logger;
@@ -13,7 +13,7 @@ export class DataLoader {
    * Loads certificate configurations based on mode.
    */
   public loadCertificateConfigs(config: AppConfig): CertificateConfig[] {
-    if (config.mode === "test") {
+    if (config.mode === 'test') {
       return this.loadTestModeConfigs(config);
     } else {
       return this.loadProductionModeConfigs(config);
@@ -23,7 +23,7 @@ export class DataLoader {
   private loadTestModeConfigs(config: AppConfig): CertificateConfig[] {
     if (!config.testName) {
       throw new Error(
-        "TEST_NAME environment variable is required in test mode"
+        'TEST_NAME environment variable is required in test mode'
       );
     }
 

@@ -1,21 +1,21 @@
-import { readFileSync, writeFileSync } from "fs";
-import { join } from "path";
-import type { Color } from "pdf-lib";
-import { PDFDocument, rgb } from "pdf-lib";
-import fontkit from "@pdf-lib/fontkit";
+import { readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
+import type { Color } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit';
 import type {
   CertificateConfig,
   GeneratorOptions,
   RGB,
   Position,
-} from "./types";
+} from './types';
 import {
   CertificateGeneratorError,
   FileNotFoundError,
   InvalidConfigError,
-} from "./errors";
-import { FileUtil } from "./utils";
-import { Logger } from "./logger";
+} from './errors';
+import { FileUtil } from './utils';
+import { Logger } from './logger';
 
 export class CertificateGenerator {
   private logger: Logger;
@@ -34,15 +34,15 @@ export class CertificateGenerator {
 
     if (!templatePath || !fontPath || !outputDir) {
       throw new InvalidConfigError(
-        "templatePath, fontPath, and outputDir are required"
+        'templatePath, fontPath, and outputDir are required'
       );
     }
 
     if (concurrency <= 0) {
-      throw new InvalidConfigError("concurrency must be greater than 0");
+      throw new InvalidConfigError('concurrency must be greater than 0');
     }
 
-    if (mode === "test" && (!testName || testName.trim().length === 0)) {
+    if (mode === 'test' && (!testName || testName.trim().length === 0)) {
       throw new InvalidConfigError('testName is required when mode is "test"');
     }
 
@@ -54,10 +54,10 @@ export class CertificateGenerator {
     try {
       this.templateBuffer = readFileSync(this.options.templatePath);
       this.fontBuffer = readFileSync(this.options.fontPath);
-      this.logger.success("Assets loaded successfully");
+      this.logger.success('Assets loaded successfully');
     } catch (error) {
       throw new FileNotFoundError(
-        "Failed to load required assets",
+        'Failed to load required assets',
         error as Error
       );
     }
@@ -96,7 +96,7 @@ export class CertificateGenerator {
 
     // Include email in filename for production mode (sanitized)
     let filename = sanitizedName;
-    if (config.email && this.options.mode === "production") {
+    if (config.email && this.options.mode === 'production') {
       const sanitizedEmail = FileUtil.sanitizeFilename(config.email);
       filename = `${sanitizedName}_${sanitizedEmail}`;
     }
@@ -106,18 +106,18 @@ export class CertificateGenerator {
 
   private validateCertificateConfig(config: CertificateConfig): void {
     if (!config.name || config.name.trim().length === 0) {
-      throw new InvalidConfigError("Certificate name cannot be empty");
+      throw new InvalidConfigError('Certificate name cannot be empty');
     }
 
     if (config.fontSize && (config.fontSize <= 0 || config.fontSize > 200)) {
-      throw new InvalidConfigError("Font size must be between 1 and 200");
+      throw new InvalidConfigError('Font size must be between 1 and 200');
     }
 
     if (
-      this.options.mode === "production" &&
+      this.options.mode === 'production' &&
       (!config.email || config.email.trim().length === 0)
     ) {
-      throw new InvalidConfigError("Email is required in production mode");
+      throw new InvalidConfigError('Email is required in production mode');
     }
   }
 
@@ -134,13 +134,13 @@ export class CertificateGenerator {
 
       const pages = pdfDoc.getPages();
       if (pages.length === 0) {
-        throw new CertificateGeneratorError("Template PDF has no pages");
+        throw new CertificateGeneratorError('Template PDF has no pages');
       }
 
       const firstPage = pages[0];
       if (!firstPage) {
         throw new CertificateGeneratorError(
-          "Template PDF has no valid first page"
+          'Template PDF has no valid first page'
         );
       }
       const fontSize = config.fontSize || this.options.defaultFontSize;
@@ -178,7 +178,7 @@ export class CertificateGenerator {
 
       this.logger.success(
         `Certificate generated: ${config.name}${
-          config.email ? ` (${config.email})` : ""
+          config.email ? ` (${config.email})` : ''
         }`
       );
       return outputPath;
@@ -229,7 +229,7 @@ export class CertificateGenerator {
         } else {
           failed.push({
             config: result.config,
-            error: result.error ?? new Error("Unknown error"),
+            error: result.error ?? new Error('Unknown error'),
           });
         }
       });
